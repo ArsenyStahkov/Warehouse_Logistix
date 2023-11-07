@@ -1,0 +1,15 @@
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\bin\Debug\net6.0\Warehouse.exe
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\bin\Debug\net6.0\Warehouse.deps.json
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\bin\Debug\net6.0\Warehouse.runtimeconfig.json
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\bin\Debug\net6.0\Warehouse.dll
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\bin\Debug\net6.0\Warehouse.pdb
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.csproj.AssemblyReference.cache
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.AssemblyInfoInputs.cache
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.AssemblyInfo.cs
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.csproj.CoreCompileInputs.cache
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.dll
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\refint\Warehouse.dll
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.pdb
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\Warehouse.genruntimeconfig.cache
+D:\GitHub\Warehouse_Logistix\Warehouse\Warehouse\obj\Debug\net6.0\ref\Warehouse.dll
