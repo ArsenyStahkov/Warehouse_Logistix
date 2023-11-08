@@ -9,7 +9,7 @@ namespace Warehouse
         private const byte _EMPTY_CELL = 0;
 
         // Space
-        private const uint _MAX_X = 70;      // Pallets + cranes + empty space (boxes are since line 6)
+        private const uint _MAX_X = 70;      // Pallets + cranes + empty space (pallets are since line 5)
         private const uint _MAX_Y = 70;      // Pallets (36) + reserve + empty space
         private const uint _MAX_Z = 8;
 
