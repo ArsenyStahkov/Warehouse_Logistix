@@ -13,6 +13,8 @@ namespace Warehouse
         private const uint _MAX_Y = 70;      // Pallets (36) + reserve + empty space
         private const uint _MAX_Z = 8;
 
+        private const int _START_CRANES_X = 0;
+
         // ID of various goods in warehouse
         private const int _ID_GLUE = 1;
         private const int _ID_CONSTRUCTION_MATERIALS = 2;
@@ -35,16 +37,11 @@ namespace Warehouse
             _coordinates = new int[_MAX_X, _MAX_Y, _MAX_Z];
 
             // Declare cranes
-            _freeCranesArray = new int[5] { 11, 12, 13, 14, 15 };
-            _busyCranesArray = new int[5] { -11, -12, -13, -14, -15 };
+            _freeCranesArray = new int[5] { 101, 102, 103, 104, 105 };
+            _busyCranesArray = new int[5] { -101, -102, -103, -104, -105 };
 
             for (int i = 0; i < 5; i++)
-                _coordinates[0, (i + 1) * 10, 0] = _freeCranesArray[i];
-
-            //_coordinates[20, 0, 0] = _ID_2_CRANE_FREE;
-            //_coordinates[30, 0, 0] = _ID_3_CRANE_FREE;
-            //_coordinates[40, 0, 0] = _ID_4_CRANE_FREE;
-            //_coordinates[50, 0, 0] = _ID_5_CRANE_FREE;
+                _coordinates[_START_CRANES_X, (i + 1) * 10, 0] = _freeCranesArray[i];
         }
     }
 }
