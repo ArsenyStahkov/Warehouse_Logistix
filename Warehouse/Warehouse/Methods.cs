@@ -18,6 +18,12 @@ namespace Warehouse
                     return;
                 }
 
+                if (pallet_Y % 10 == 0)
+                {
+                    Console.WriteLine("Pallet cannot be placed on a crane line!");
+                    return;
+                }
+
                 if (_coordinates[pallet_X, pallet_Y, pallet_Z] != _EMPTY_CELL)
                 {
                     Console.WriteLine("This cell is not empty!");
@@ -35,19 +41,19 @@ namespace Warehouse
 
         private bool IsCoordinatesCorrect(int crane_X, int crane_Y, int crane_Z, int id_Crane)
         {
-            if (X >= _MAX_X || Y >= _MAX_Y || Z >= _MAX_Z)
+            if (crane_X >= _MAX_X || crane_Y >= _MAX_Y || crane_Z >= _MAX_Z)
             {
                 Console.WriteLine("The crane coordinates are beyond the space!");
                 return false;
             }
 
-            if (_coordinates[X, Y, Z] != id_Crane)
+            if (_coordinates[crane_X, crane_Y, crane_Z] != id_Crane)
             {
                 Console.WriteLine("The number of crane is incorrect!");
                 return false;
             }
 
-            if (Z != 0)
+            if (crane_Z != 0)
             {
                 Console.WriteLine("Z coordinate of the crane is incorrect!");
                 return false;
@@ -67,20 +73,26 @@ namespace Warehouse
                 int initial_Y = crane_Y;
                 int initial_Z = crane_Z;
 
-                if (crane_X < _START_CRANES_X)
-                    crane_X = _START_CRANES_X;
+                if (crane_X < _START_CRANES_X + 1)
+                    crane_X = _START_CRANES_X + 1;
 
-                // While there are pallets on the right from the crane, move it down (X coordinate)
-                while ((_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL) && (crane_X < _MAX_X))
-                    crane_X++;
-
-                // Move crane left until it is next to the wall
+                // Move crane left until it is next to a pallet or the wall
                 for (int i = 0; i < 10; i++)
                 {
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
                         break;
 
                     crane_Y--;
+
+                    if (crane_Y == initial_Y - 10)
+                    {
+                        crane_Y += 10;
+                        crane_X += 1;
+                        i = -1;
+                    }
+
+                    if (crane_X == _MAX_X - 1)
+                        break;
                 }
 
                 // If the adjacent cell is busy, try to put the pallet upper (Z coordinate)
@@ -119,20 +131,13 @@ namespace Warehouse
                 int initial_Y = crane_Y;
                 int initial_Z = crane_Z;
 
-                if (crane_X < 5)
-                    crane_X = 5;
+                if (crane_X < _START_CRANES_X + 1)
+                    crane_X = _START_CRANES_X + 1;
 
-                while ((_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL) && (crane_X < _MAX_X))
-                    crane_X++;
-
-                // Move crane left until it is next to a pallet or the wall
                 for (int i = 0; i < 10; i++)
                 {
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
-                    {
-                        Console.WriteLine(_coordinates[crane_X, crane_Y - 1, crane_Z]);
                         break;
-                    }
 
                     crane_Y--;
 
@@ -142,6 +147,9 @@ namespace Warehouse
                         crane_X += 1;
                         i = -1;
                     }
+
+                    if (crane_X == _MAX_X - 1)
+                        break;
                 }
 
                 for (uint i = _MAX_Z; i > 0; i--)

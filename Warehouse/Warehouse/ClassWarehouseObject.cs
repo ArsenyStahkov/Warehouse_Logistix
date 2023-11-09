@@ -9,11 +9,11 @@ namespace Warehouse
         private const byte _EMPTY_CELL = 0;
 
         // Space
-        private const uint _MAX_X = 70;      // Pallets + cranes + empty space (pallets are since line 5)
-        private const uint _MAX_Y = 70;      // Pallets (36) + reserve + empty space
+        private const uint _MAX_X = 70;      // Pallets (64) + cranes (1) + empty space (pallets are placed from sixth line)
+        private const uint _MAX_Y = 70;      // Pallets (60) + cranes (5) + empty space
         private const uint _MAX_Z = 8;
 
-        private const int _START_CRANES_X = 0;
+        private const int _START_CRANES_X = 5;
 
         // ID of various goods in warehouse
         private const int _ID_GLUE = 1;
@@ -36,7 +36,7 @@ namespace Warehouse
         {
             _coordinates = new int[_MAX_X, _MAX_Y, _MAX_Z];
 
-            // Declare cranes
+            // Create cranes
             _freeCranesArray = new int[5] { 101, 102, 103, 104, 105 };
             _busyCranesArray = new int[5] { -101, -102, -103, -104, -105 };
 
