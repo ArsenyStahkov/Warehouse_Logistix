@@ -8,10 +8,21 @@ namespace Warehouse
 {
     partial class WarehouseObject
     {
-        private void AddNewPallet(int pallet_X, int pallet_Y, int pallet_Z, int id_Pallet)
+        private void AddNewPallet(int pallet_Y, int pallet_Z, int id_Pallet)
         {
             try
             {
+                int pallet_X = _START_CRANES_X;
+
+                if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
+                    pallet_X = _START_CRANES_X + 1;
+
+                if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
+                    pallet_X = _START_CRANES_X + 3;
+
+                if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
+                    pallet_X = _START_CRANES_X + 5;
+
                 if (pallet_X > _MAX_X || pallet_Y > _MAX_Y || pallet_Z > _MAX_Z)
                 {
                     Console.WriteLine("The coordinates are beyond the space!");
@@ -26,7 +37,7 @@ namespace Warehouse
 
                 if (_coordinates[pallet_X, pallet_Y, pallet_Z] != _EMPTY_CELL)
                 {
-                    Console.WriteLine("This cell is not empty!");
+                    Console.WriteLine("This cell is not avaliable!");
                     return;
                 }
 
@@ -45,7 +56,7 @@ namespace Warehouse
             }
         }
 
-        private bool IsCoordinatesCorrect(int crane_X, int crane_Y, int crane_Z, int id_Crane)
+        private bool AreCoordCorrect(int crane_X, int crane_Y, int crane_Z, int id_Crane)
         {
             if (crane_X >= _MAX_X || crane_Y >= _MAX_Y || crane_Z >= _MAX_Z)
             {
@@ -68,9 +79,57 @@ namespace Warehouse
             return true;
         }
 
+        private int GetPalletGroup(int pallet_X, int pallet_Y, int pallet_Z, int id_Pallet)
+        {
+            if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
+            {
+                Console.WriteLine("The pallet coordinates are not correct!");
+                return 0;
+            }
+
+            if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
+            {
+                Console.WriteLine("The number of pallet is incorrect!");
+                return 0;
+            }
+
+            if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
+            {
+                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GLUE
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GROUT
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_DETERGENTS
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTO_CHEMISTRY)
+                {
+                    return 1;
+                }
+            }
+
+            if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
+            {
+                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_FASTENERS
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HAND_TOOLS
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_CONSTRUCTION_MATERIALS)
+                {
+                    return 2;
+                }
+            }
+
+            if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
+            {
+                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HOUSEHOLD_GOODS
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_ELECTRICAL_EQUIPMENT
+                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTOMOTIVE_GOODS)
+                {
+                    return 3;
+                }
+            }
+
+            return 0;
+        }
+
         private void UseStorage(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
         {
-            if (!IsCoordinatesCorrect(crane_X, crane_Y, crane_Z, id_Crane))
+            if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
                 return;
 
             int storage_start_X = 5;
@@ -115,7 +174,7 @@ namespace Warehouse
         {
             try
             {
-                if (!IsCoordinatesCorrect(crane_X, crane_Y, crane_Z, id_Crane))
+                if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
                     return;
 
                 int initial_X = crane_X;
@@ -125,10 +184,11 @@ namespace Warehouse
                 if (crane_X < _START_CRANES_X + 1)
                     crane_X = _START_CRANES_X + 1;
 
+                int palletGroup = GetPalletGroup(crane_X, crane_Y, crane_Z, id_Pallet);
+
                 // Move crane left until it is next to a pallet or the wall
                 for (int i = 0; i < _ROW_PALLETS; i++)
                 {
-                    // We need to check the type of goods in the row (check X). If the type is OK, check each column (Y) to find the goods.
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
                         break;
 
@@ -167,12 +227,12 @@ namespace Warehouse
                 throw new Exception(ex.Message);
             }
         }
-
+        
         private void GetPallet(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
         {
             try
             {
-                if (!IsCoordinatesCorrect(crane_X, crane_Y, crane_Z, id_Crane))
+                if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
                     return;
 
                 int initial_X = crane_X;
@@ -184,7 +244,6 @@ namespace Warehouse
 
                 for (int i = 0; i < _ROW_PALLETS; i++)
                 {
-                    // We need to check the type of goods in the row (check X). If the type is OK, check each column (Y) to find the goods.
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
                         break;
 
@@ -222,11 +281,6 @@ namespace Warehouse
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        private void CheckAdjacentPallet()
-        {
-
         }
     }
 }

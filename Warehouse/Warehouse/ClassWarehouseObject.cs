@@ -18,13 +18,13 @@ namespace Warehouse
 
         // ID of various goods in warehouse
         private const int _ID_GLUE = 1;
-        private const int _ID_CONSTRUCTION_MATERIALS = 2;
-        private const int _ID_GROUT = 3;
-        private const int _ID_FASTENERS = 4;
-        private const int _ID_HOUSEHOLD_GOODS = 5;
-        private const int _ID_DETERGENTS = 6;
-        private const int _ID_AUTO_CHEMISTRY = 7;
-        private const int _ID_HAND_TOOLS = 8;
+        private const int _ID_GROUT = 2;
+        private const int _ID_DETERGENTS = 3;
+        private const int _ID_AUTO_CHEMISTRY = 4;
+        private const int _ID_HAND_TOOLS = 5;
+        private const int _ID_CONSTRUCTION_MATERIALS = 6;
+        private const int _ID_FASTENERS = 7;
+        private const int _ID_HOUSEHOLD_GOODS = 8;
         private const int _ID_ELECTRICAL_EQUIPMENT = 9;
         private const int _ID_AUTOMOTIVE_GOODS = 10;
 
