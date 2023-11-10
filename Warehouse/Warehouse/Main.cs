@@ -17,7 +17,7 @@ namespace Warehouse
             warehouse.AddNewPallet(28, 0, _ID_AUTOMOTIVE_GOODS);
 
 
-            //warehouse.GetPallet(_START_CRANES_X, 10, 0, 101, _ID_CONSTRUCTION_MATERIALS);
+            warehouse.GetPallet(_START_CRANES_X, 20, 0, 102, _ID_CONSTRUCTION_MATERIALS);
             //warehouse.SetPallet(_START_CRANES_X, 10, 0, -101, _ID_CONSTRUCTION_MATERIALS);
 
 

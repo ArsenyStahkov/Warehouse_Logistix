@@ -79,49 +79,69 @@ namespace Warehouse
             return true;
         }
 
-        private int GetPalletGroup(int pallet_X, int pallet_Y, int pallet_Z, int id_Pallet)
+        //private int GetPalletGroup(int pallet_X, int pallet_Y, int pallet_Z, int id_Pallet)
+        //{
+        //    if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
+        //    {
+        //        Console.WriteLine("The pallet coordinates are not correct!");
+        //        return 0;
+        //    }
+
+        //    if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
+        //    {
+        //        Console.WriteLine("The number of pallet is incorrect!");
+        //        return 0;
+        //    }
+
+        //    if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
+        //    {
+        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GLUE
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GROUT
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_DETERGENTS
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTO_CHEMISTRY)
+        //        {
+        //            return 1;
+        //        }
+        //    }
+
+        //    if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
+        //    {
+        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_FASTENERS
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HAND_TOOLS
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_CONSTRUCTION_MATERIALS)
+        //        {
+        //            return 2;
+        //        }
+        //    }
+
+        //    if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
+        //    {
+        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HOUSEHOLD_GOODS
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_ELECTRICAL_EQUIPMENT
+        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTOMOTIVE_GOODS)
+        //        {
+        //            return 3;
+        //        }
+        //    }
+
+        //    return 0;
+        //}
+
+        private int GetPalletGroup(int id_Pallet)
         {
-            if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
-            {
-                Console.WriteLine("The pallet coordinates are not correct!");
-                return 0;
-            }
-
-            if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
-            {
-                Console.WriteLine("The number of pallet is incorrect!");
-                return 0;
-            }
-
             if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
             {
-                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GLUE
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GROUT
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_DETERGENTS
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTO_CHEMISTRY)
-                {
-                    return 1;
-                }
+                return 1;
             }
 
             if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
             {
-                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_FASTENERS
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HAND_TOOLS
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_CONSTRUCTION_MATERIALS)
-                {
-                    return 2;
-                }
+                return 3;
             }
 
             if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
             {
-                if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HOUSEHOLD_GOODS
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_ELECTRICAL_EQUIPMENT
-                    || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTOMOTIVE_GOODS)
-                {
-                    return 3;
-                }
+                return 5;
             }
 
             return 0;
@@ -183,8 +203,6 @@ namespace Warehouse
 
                 if (crane_X < _START_CRANES_X + 1)
                     crane_X = _START_CRANES_X + 1;
-
-                int palletGroup = GetPalletGroup(crane_X, crane_Y, crane_Z, id_Pallet);
 
                 // Move crane left until it is next to a pallet or the wall
                 for (int i = 0; i < _ROW_PALLETS; i++)
@@ -260,17 +278,31 @@ namespace Warehouse
                         break;
                 }
 
-                for (uint i = _MAX_Z; i > 0; i--)
+                //int palletGroup = GetPalletGroup(id_Pallet);                
+                //crane_X += palletGroup - 1;
+
+                //for (int i = 0; i < _ROW_PALLETS; i++)
+                //{
+                //    if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
+                //        break;
+
+                //    crane_Y--;   
+                //}
+
+                for (int i = Convert.ToInt32(_MAX_Z); i > 0; i--)
                 {
                     if (_coordinates[crane_X, crane_Y - 1, i - 1] == id_Pallet)
                     {
                         _coordinates[crane_X, crane_Y - 1, i - 1] = _EMPTY_CELL;
-
                         _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
                         Console.WriteLine("Pallet (id: -{0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
                             , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
 
                         return;
+                    }
+                    else
+                    {
+                        //UseStorage(crane_X, crane_Y, i - 1, id_Crane, id_Pallet);
                     }
                 }
                 Console.WriteLine("The pallet was not found!");
