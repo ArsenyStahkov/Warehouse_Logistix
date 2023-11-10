@@ -12,9 +12,12 @@ namespace Warehouse
         {
             WarehouseObject warehouse = new WarehouseObject();
 
-            warehouse.AddNewPallet(6, 19, 0, _ID_GLUE);
-            //warehouse.SetPallet(2, 10, 0, -11, _ID_GLUE);
-            warehouse.GetPallet(_START_CRANES_X, 20, 0, 102, _ID_GLUE);
+            //warehouse.AddNewPallet(6, 7, 0, _ID_GLUE);
+            //warehouse.AddNewPallet(7, 7, 0, _ID_CONSTRUCTION_MATERIALS);
+            //warehouse.AddNewPallet(8, 7, 0, _ID_GLUE);
+            //warehouse.GetPallet(_START_CRANES_X, 10, 0, 101, _ID_CONSTRUCTION_MATERIALS);
+            //warehouse.SetPallet(_START_CRANES_X, 10, 0, -101, _ID_CONSTRUCTION_MATERIALS);
+
         }
     }
 }
