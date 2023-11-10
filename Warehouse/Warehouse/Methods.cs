@@ -260,49 +260,51 @@ namespace Warehouse
                 if (crane_X < _START_CRANES_X + 1)
                     crane_X = _START_CRANES_X + 1;
 
-                for (int i = 0; i < _ROW_PALLETS; i++)
-                {
-                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
-                        break;
-
-                    crane_Y--;
-
-                    if (crane_Y == initial_Y - _ROW_PALLETS)
-                    {
-                        crane_Y += _ROW_PALLETS;
-                        crane_X += 1;
-                        i = -1;
-                    }
-
-                    if (crane_X == _MAX_X - 1)
-                        break;
-                }
-
-                //int palletGroup = GetPalletGroup(id_Pallet);                
-                //crane_X += palletGroup - 1;
-
                 //for (int i = 0; i < _ROW_PALLETS; i++)
                 //{
                 //    if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
                 //        break;
 
-                //    crane_Y--;   
+                //    crane_Y--;
+
+                //    if (crane_Y == initial_Y - _ROW_PALLETS)
+                //    {
+                //        crane_Y += _ROW_PALLETS;
+                //        crane_X += 1;
+                //        i = -1;
+                //    }
+
+                //    if (crane_X == _MAX_X - 1)
+                //        break;
                 //}
 
-                for (int i = Convert.ToInt32(_MAX_Z); i > 0; i--)
-                {
-                    if (_coordinates[crane_X, crane_Y - 1, i - 1] == id_Pallet)
-                    {
-                        _coordinates[crane_X, crane_Y - 1, i - 1] = _EMPTY_CELL;
-                        _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
-                        Console.WriteLine("Pallet (id: -{0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
-                            , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
+                int palletGroup = GetPalletGroup(id_Pallet);
+                crane_X += palletGroup - 1;
 
-                        return;
-                    }
-                    else
+                for (int i = 0; i < _ROW_PALLETS - 1; i++)
+                {
+                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == _EMPTY_CELL)
+                        crane_Y--;
+
+                    if ((_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL))
                     {
-                        //UseStorage(crane_X, crane_Y, i - 1, id_Crane, id_Pallet);
+                        //UseStorage(crane_X, crane_Y - 1, crane_Z, id_Crane, id_Pallet);
+                    }
+
+                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == id_Pallet)
+                    {
+                        for (uint j = _MAX_Z; j > 0; j--)
+                        {
+                            if (_coordinates[crane_X, crane_Y - 1, j - 1] == id_Pallet)
+                            {
+                                _coordinates[crane_X, crane_Y - 1, j - 1] = _EMPTY_CELL;
+                                _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
+                                Console.WriteLine("Pallet (id: -{0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
+                                    , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
+
+                                return;
+                            }
+                        }
                     }
                 }
                 Console.WriteLine("The pallet was not found!");
