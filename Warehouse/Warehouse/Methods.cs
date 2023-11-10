@@ -204,6 +204,9 @@ namespace Warehouse
                 if (crane_X < _START_CRANES_X + 1)
                     crane_X = _START_CRANES_X + 1;
 
+                int palletGroup = GetPalletGroup(id_Pallet);
+                crane_X += palletGroup - 1;
+
                 // Move crane left until it is next to a pallet or the wall
                 for (int i = 0; i < _ROW_PALLETS; i++)
                 {
@@ -230,8 +233,6 @@ namespace Warehouse
                         _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
                         Console.WriteLine("Pallet (id: -{0}) was put successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
                             , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
-
-                        Console.WriteLine(crane_X.ToString() + " " + (crane_Y).ToString() + " " + crane_Z.ToString());
 
                         return;
                     }
@@ -288,7 +289,7 @@ namespace Warehouse
 
                     if ((_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL))
                     {
-                        //UseStorage(crane_X, crane_Y - 1, crane_Z, id_Crane, id_Pallet);
+                        UseStorage(initial_X, initial_Y, initial_Z, id_Crane, id_Pallet);
                     }
 
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] == id_Pallet)
