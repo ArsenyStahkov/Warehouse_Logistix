@@ -79,114 +79,66 @@ namespace Warehouse
             return true;
         }
 
-        //private int GetPalletGroup(int pallet_X, int pallet_Y, int pallet_Z, int id_Pallet)
-        //{
-        //    if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
-        //    {
-        //        Console.WriteLine("The pallet coordinates are not correct!");
-        //        return 0;
-        //    }
-
-        //    if (_coordinates[pallet_X, pallet_Y, pallet_Z] != id_Pallet)
-        //    {
-        //        Console.WriteLine("The number of pallet is incorrect!");
-        //        return 0;
-        //    }
-
-        //    if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
-        //    {
-        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GLUE
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_GROUT
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_DETERGENTS
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTO_CHEMISTRY)
-        //        {
-        //            return 1;
-        //        }
-        //    }
-
-        //    if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
-        //    {
-        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_FASTENERS
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HAND_TOOLS
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_CONSTRUCTION_MATERIALS)
-        //        {
-        //            return 2;
-        //        }
-        //    }
-
-        //    if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
-        //    {
-        //        if (   _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_HOUSEHOLD_GOODS
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_ELECTRICAL_EQUIPMENT
-        //            || _coordinates[pallet_X, pallet_Y, pallet_Z] == _ID_AUTOMOTIVE_GOODS)
-        //        {
-        //            return 3;
-        //        }
-        //    }
-
-        //    return 0;
-        //}
-
         private int GetPalletGroup(int id_Pallet)
         {
             if (id_Pallet == _ID_GLUE || id_Pallet == _ID_GROUT || id_Pallet == _ID_DETERGENTS || id_Pallet == _ID_AUTO_CHEMISTRY)
-            {
                 return 1;
-            }
 
             if (id_Pallet == _ID_FASTENERS || id_Pallet == _ID_HAND_TOOLS || id_Pallet == _ID_CONSTRUCTION_MATERIALS)
-            {
                 return 3;
-            }
 
             if (id_Pallet == _ID_HOUSEHOLD_GOODS || id_Pallet == _ID_ELECTRICAL_EQUIPMENT || id_Pallet == _ID_AUTOMOTIVE_GOODS)
-            {
                 return 5;
-            }
 
             return 0;
         }
 
-        private void UseStorage(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
+        private void SendToStorage(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
         {
-            if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
-                return;
-
-            int storage_start_X = 5;
-            int storage_start_Y = 69;
-            int storage_start_Z = 0;
-
-            for (int i = 0; i < 5; i++)
+            try
             {
-                if (_coordinates[storage_start_X, storage_start_Y + i + 1, storage_start_Z] == _ID_STORAGE)
-                    break;
+                //if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
+                //    return;
 
-                crane_Y++;
+                int storage_start_X = 4;
+                int storage_start_Y = 69;
+                int storage_start_Z = 0;
 
-                if (crane_Y == storage_start_Y + 5)
+                for (int i = 0; i < 5; i++)
                 {
-                    crane_Y = storage_start_Y;
-                    crane_X -= 1;
-                    i = -1;
+                    if (_coordinates[storage_start_X, storage_start_Y + i + 1, storage_start_Z] == _ID_STORAGE)
+                        break;
+
+                    crane_Y++;
+
+                    if (crane_Y == storage_start_Y + 5)
+                    {
+                        crane_Y = storage_start_Y;
+                        crane_X -= 1;
+                        i = -1;
+                    }
+
+                    if (crane_X == 0)
+                        break;
                 }
 
-                if (crane_X == 0)
-                    break;
+                for (uint i = 0; i < _MAX_Z; i++)
+                {
+                    if (_coordinates[storage_start_X, storage_start_Y + 1, i] == _ID_STORAGE)
+                    {
+                        _coordinates[storage_start_X, storage_start_Y + 1, i] = id_Pallet;
+
+                        _coordinates[crane_X, crane_Y, crane_Z] = id_Crane * -1;
+                        Console.WriteLine("Pallet (id: -{0}) was taken to the storage successfully in ({1}, {2}, {3})"
+                            , id_Pallet, storage_start_X, storage_start_Y + 1, i);
+
+                        return;
+                    }
+                }
             }
-
-            for (uint i = _MAX_Z; i > 0; i--)
+            catch (Exception ex)
             {
-                if (_coordinates[crane_X, crane_Y + 1, i - 1] == _ID_STORAGE)
-                {
-                    _coordinates[crane_X, crane_Y + 1, i - 1] = id_Pallet;
-
-                    _coordinates[storage_start_X, storage_start_Y, storage_start_Z] = id_Crane * -1;
-                    Console.WriteLine("Pallet (id: -{0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
-                        , id_Pallet, _coordinates[storage_start_X, storage_start_Y, storage_start_Z]
-                        , storage_start_X, storage_start_Y, storage_start_Z);
-
-                    return;
-                }
+                throw new Exception(ex.Message);
             }
         }
 
@@ -237,6 +189,7 @@ namespace Warehouse
                         return;
                     }
                 }
+
                 Console.WriteLine("No empty cells found!");
 
                 return;
@@ -282,14 +235,19 @@ namespace Warehouse
                 int palletGroup = GetPalletGroup(id_Pallet);
                 crane_X += palletGroup - 1;
 
-                for (int i = 0; i < _ROW_PALLETS - 1; i++)
+                //for (int i = 0; i < _ROW_PALLETS - 1; i++)
+                for (int i = 0; i < _ROW_PALLETS; i++)
                 {
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] == _EMPTY_CELL)
                         crane_Y--;
 
                     if ((_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL))
                     {
-                        UseStorage(initial_X, initial_Y, initial_Z, id_Crane, id_Pallet);
+                        for (uint j = _MAX_Z; j > 0; j--)
+                        {
+                            SendToStorage(initial_X, initial_Y, initial_Z, id_Crane, id_Pallet);
+                        }
+                        crane_Y--;
                     }
 
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] == id_Pallet)
