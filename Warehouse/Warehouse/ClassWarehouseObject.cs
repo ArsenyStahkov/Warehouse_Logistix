@@ -9,12 +9,14 @@ namespace Warehouse
         private const byte _EMPTY_CELL = 0;
 
         // Space
-        private const uint _MAX_X = 70;      // Pallets (64) + cranes (1) + empty space (pallets are placed from sixth line)
+        private const uint _MAX_X = 70;      // Empty space (5) + cranes (1) + Pallets (64) (are placed from sixth line)
         private const uint _MAX_Y = 75;      // Pallets (60) + cranes (5) + empty space
         private const uint _MAX_Z = 8;
 
         private const int _START_CRANES_X = 5;
         private const int _ROW_PALLETS = 10;
+        private const int _STORAGE_X = 64;
+        private const int _STORAGE_Y = 5;
 
         // ID of various goods in warehouse
         private const int _ID_GLUE = 1;

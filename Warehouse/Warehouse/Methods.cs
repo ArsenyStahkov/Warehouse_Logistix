@@ -100,26 +100,28 @@ namespace Warehouse
                 //if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
                 //    return;
 
-                int storage_start_X = 4;
+                int storage_start_X = GetPalletGroup(id_Pallet);
                 int storage_start_Y = 69;
                 int storage_start_Z = 0;
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < _STORAGE_Y; i++)
                 {
                     if (_coordinates[storage_start_X, storage_start_Y + i + 1, storage_start_Z] == _ID_STORAGE)
                         break;
 
                     crane_Y++;
 
-                    if (crane_Y == storage_start_Y + 5)
+                    if (crane_Y == storage_start_Y + _STORAGE_Y)
                     {
                         crane_Y = storage_start_Y;
-                        crane_X -= 1;
                         i = -1;
                     }
 
-                    if (crane_X == 0)
+                    if (crane_X == _STORAGE_X - 1)
+                    {
+                        Console.WriteLine("There is no empty space in the storage!");
                         break;
+                    }
                 }
 
                 for (uint i = 0; i < _MAX_Z; i++)
@@ -129,7 +131,7 @@ namespace Warehouse
                         _coordinates[storage_start_X, storage_start_Y + 1, i] = id_Pallet;
 
                         _coordinates[crane_X, crane_Y, crane_Z] = id_Crane * -1;
-                        Console.WriteLine("Pallet (id: -{0}) was taken to the storage successfully in ({1}, {2}, {3})"
+                        Console.WriteLine("Pallet (id: -{0}) was sent to the storage successfully in ({1}, {2}, {3})"
                             , id_Pallet, storage_start_X, storage_start_Y + 1, i);
 
                         return;
@@ -140,6 +142,11 @@ namespace Warehouse
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        private void GetFromStorage(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
+        {
+
         }
 
         private void SetPallet(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
