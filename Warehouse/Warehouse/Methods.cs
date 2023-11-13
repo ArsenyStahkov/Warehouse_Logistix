@@ -29,7 +29,7 @@ namespace Warehouse
                     return;
                 }
 
-                if (pallet_Y % _ROW_PALLETS == 0)
+                if (pallet_Y % _ROW_PALLETS == 0 && pallet_Y != 0)
                 {
                     Console.WriteLine("Pallet cannot be placed on a crane line!");
                     return;
@@ -178,14 +178,14 @@ namespace Warehouse
                                 _coordinates[storage_start_X, storage_start_Y + 1, j - 1] = _ID_STORAGE;
                                 _coordinates[crane_X, crane_Y, crane_Z] = id_Crane * -1;
                                 Console.WriteLine("Pallet (id: {0}) was received from the storage successfully in ({1}, {2}, {3})"
-                                    , id_Pallet, storage_start_X, storage_start_Y + 1, i);
+                                    , id_Pallet, storage_start_X, storage_start_Y + 1, j - 1);
 
                                 return;
                             }
                         }
                     }
                 }
-                Console.WriteLine("The pallet was not found!");
+                //Console.WriteLine("The pallet was not found!");
 
                 return;
             }

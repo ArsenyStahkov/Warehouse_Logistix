@@ -36,7 +36,7 @@ namespace Warehouse
         private int[,,] _coordinates;
 
         int[] _freeCranesArr;
-        int[] _busyCranesArr;
+        //int[] _busyCranesArr;
 
         WarehouseObject()
         {
@@ -44,7 +44,7 @@ namespace Warehouse
 
             // Create cranes
             _freeCranesArr = new int[5] { 101, 102, 103, 104, 105 };
-            _busyCranesArr = new int[5] { -101, -102, -103, -104, -105 };
+            //_busyCranesArr = new int[5] { -101, -102, -103, -104, -105 };
 
             for (int i = 0; i < 5; i++)
                 _coordinates[_START_CRANES_X, (i + 1) * _ROW_PALLETS, 0] = _freeCranesArr[i];
