@@ -101,7 +101,7 @@ namespace Warehouse
                 //    return;
 
                 int storage_start_X = GetPalletGroup(id_Pallet);
-                int storage_start_Y = 70;
+                int storage_start_Y = 69;
                 int storage_start_Z = 0;
 
                 for (int i = 0; i < _STORAGE_Y; i++)
@@ -109,7 +109,8 @@ namespace Warehouse
                     if (_coordinates[storage_start_X, storage_start_Y + i + 1, storage_start_Z] == _ID_STORAGE)
                         break;
 
-                    crane_Y++;
+                    if (_coordinates[storage_start_X, storage_start_Y + i + 1, storage_start_Z] != id_Pallet)
+                        storage_start_Y++;
 
                     if (crane_Y == storage_start_Y + _STORAGE_Y)
                     {
