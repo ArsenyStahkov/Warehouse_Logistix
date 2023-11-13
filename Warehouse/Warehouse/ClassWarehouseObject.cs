@@ -50,7 +50,7 @@ namespace Warehouse
                 _coordinates[_START_CRANES_X, (i + 1) * _ROW_PALLETS, 0] = _freeCranesArr[i];
 
             // Create intermediate storage place
-            for (int X = 0; X < 5; X++)
+            for (int X = 1; X < 6; X++)
                 for (int Y = 70; Y < _MAX_Y; Y++)
                     for (int Z = 0; Z < _MAX_Z; Z++)
                         _coordinates[X, Y, Z] = _ID_STORAGE;

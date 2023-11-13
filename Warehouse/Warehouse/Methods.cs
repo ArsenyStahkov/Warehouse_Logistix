@@ -161,22 +161,22 @@ namespace Warehouse
                 //crane_X += palletGroup - 1;
 
                 //for (int i = 0; i < _ROW_PALLETS - 1; i++)
-                for (int i = 0; i < _ROW_PALLETS; i++)
+                for (int i = 0; i < _STORAGE_Y; i++)
                 {
-                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == _ID_STORAGE)
+                    if (_coordinates[storage_start_X, storage_start_Y + 1, crane_Z] == _ID_STORAGE)
                         crane_Y++;
 
-                    if ((_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _ID_STORAGE))
+                    if ((_coordinates[storage_start_X, storage_start_Y + 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _ID_STORAGE))
                         crane_Y++;
 
-                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == id_Pallet)
+                    if (_coordinates[storage_start_X, storage_start_Y + 1, crane_Z] == id_Pallet)
                     {
                         for (uint j = _MAX_Z; j > 0; j--)
                         {
-                            if (_coordinates[storage_start_X, crane_Y + 1, j - 1] == id_Pallet)
+                            if (_coordinates[storage_start_X, storage_start_Y + 1, j - 1] == id_Pallet)
                             {
-                                _coordinates[storage_start_X, crane_Y + 1, j - 1] = _ID_STORAGE;
-                                _coordinates[storage_start_X, storage_start_Y, storage_start_Z] = id_Crane * -1;
+                                _coordinates[storage_start_X, storage_start_Y + 1, j - 1] = _ID_STORAGE;
+                                _coordinates[crane_X, crane_Y, crane_Z] = id_Crane * -1;
                                 Console.WriteLine("Pallet (id: {0}) was received from the storage successfully in ({1}, {2}, {3})"
                                     , id_Pallet, storage_start_X, storage_start_Y + 1, i);
 
