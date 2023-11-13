@@ -10,7 +10,7 @@ namespace Warehouse
 
         // Space
         private const uint _MAX_X = 70;      // Empty space (5) + cranes (1) + Pallets (64) (are placed from sixth line)
-        private const uint _MAX_Y = 75;      // Pallets (60) + cranes (5) + empty space
+        private const uint _MAX_Y = 75;      // Pallets (54) + cranes (5) + empty space
         private const uint _MAX_Z = 8;
 
         private const int _START_CRANES_X = 5;

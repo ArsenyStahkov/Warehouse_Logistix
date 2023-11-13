@@ -48,7 +48,7 @@ namespace Warehouse
                 }
 
                 _coordinates[pallet_X, pallet_Y, pallet_Z] = id_Pallet;
-                Console.WriteLine("Pallet (id: -{0}) was added successfully in ({1}, {2}, {3}).", id_Pallet, pallet_X, pallet_Y, pallet_Z);
+                Console.WriteLine("Pallet (id: {0}) was added successfully in ({1}, {2}, {3}).", id_Pallet, pallet_X, pallet_Y, pallet_Z);
             }
             catch (Exception ex)
             {
@@ -101,7 +101,7 @@ namespace Warehouse
                 //    return;
 
                 int storage_start_X = GetPalletGroup(id_Pallet);
-                int storage_start_Y = 69;
+                int storage_start_Y = 70;
                 int storage_start_Z = 0;
 
                 for (int i = 0; i < _STORAGE_Y; i++)
@@ -129,9 +129,8 @@ namespace Warehouse
                     if (_coordinates[storage_start_X, storage_start_Y + 1, i] == _ID_STORAGE)
                     {
                         _coordinates[storage_start_X, storage_start_Y + 1, i] = id_Pallet;
-
                         _coordinates[crane_X, crane_Y, crane_Z] = id_Crane * -1;
-                        Console.WriteLine("Pallet (id: -{0}) was sent to the storage successfully in ({1}, {2}, {3})"
+                        Console.WriteLine("Pallet (id: {0}) was sent to the storage successfully in ({1}, {2}, {3})"
                             , id_Pallet, storage_start_X, storage_start_Y + 1, i);
 
                         return;
@@ -146,7 +145,54 @@ namespace Warehouse
 
         private void GetFromStorage(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
         {
+            try
+            {
+                //if (!AreCoordCorrect(crane_X, crane_Y, crane_Z, id_Crane))
+                //    return;
 
+                int storage_start_X = GetPalletGroup(id_Pallet);
+                int storage_start_Y = 70;
+                int storage_start_Z = 0;
+
+                //if (crane_X < _START_CRANES_X + 1)
+                //    crane_X = _START_CRANES_X + 1;
+
+                //int palletGroup = GetPalletGroup(id_Pallet);
+                //crane_X += palletGroup - 1;
+
+                //for (int i = 0; i < _ROW_PALLETS - 1; i++)
+                for (int i = 0; i < _ROW_PALLETS; i++)
+                {
+                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == _ID_STORAGE)
+                        crane_Y++;
+
+                    if ((_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet) && (_coordinates[crane_X, crane_Y - 1, crane_Z] != _ID_STORAGE))
+                        crane_Y++;
+
+                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] == id_Pallet)
+                    {
+                        for (uint j = _MAX_Z; j > 0; j--)
+                        {
+                            if (_coordinates[storage_start_X, crane_Y + 1, j - 1] == id_Pallet)
+                            {
+                                _coordinates[storage_start_X, crane_Y + 1, j - 1] = _ID_STORAGE;
+                                _coordinates[storage_start_X, storage_start_Y, storage_start_Z] = id_Crane * -1;
+                                Console.WriteLine("Pallet (id: {0}) was received from the storage successfully in ({1}, {2}, {3})"
+                                    , id_Pallet, storage_start_X, storage_start_Y + 1, i);
+
+                                return;
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine("The pallet was not found!");
+
+                return;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         private void SetPallet(int crane_X, int crane_Y, int crane_Z, int id_Crane, int id_Pallet)
@@ -190,7 +236,7 @@ namespace Warehouse
 
                         // Return crane on the initial place but with opposite id
                         _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
-                        Console.WriteLine("Pallet (id: -{0}) was put successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
+                        Console.WriteLine("Pallet (id: {0}) was put successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
                             , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
 
                         return;
@@ -265,7 +311,7 @@ namespace Warehouse
                             {
                                 _coordinates[crane_X, crane_Y - 1, j - 1] = _EMPTY_CELL;
                                 _coordinates[initial_X, initial_Y, initial_Z] = id_Crane * -1;
-                                Console.WriteLine("Pallet (id: -{0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
+                                Console.WriteLine("Pallet (id: {0}) was received successfully. The crane (id: {1}) is in ({2}, {3}, {4}) now."
                                     , id_Pallet, _coordinates[initial_X, initial_Y, initial_Z], initial_X, initial_Y, initial_Z);
 
                                 return;
