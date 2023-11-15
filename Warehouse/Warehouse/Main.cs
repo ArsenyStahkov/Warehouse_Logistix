@@ -18,10 +18,10 @@ namespace Warehouse
             //warehouse.GetPallet(_START_CRANES_X, 10, 0, 101, _ID_GLUE);
             //warehouse.SetPallet(_START_CRANES_X, 10, 0, -101, _ID_GLUE);
 
-            TestRowFilling();
+            //TestRowFilling();
             TestAllRowsFilling();
-            TestStorageGetAndSet();
-            TestColumnFilling();
+            //TestStorageGetAndSet();
+            //TestColumnFilling();
         }
     }
 }

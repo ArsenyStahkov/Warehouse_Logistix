@@ -219,7 +219,8 @@ namespace Warehouse
                     if (_coordinates[crane_X, crane_Y - 1, crane_Z] != _EMPTY_CELL)
                         break;
 
-                    crane_Y--;
+                    if (_coordinates[crane_X, crane_Y - 1, crane_Z] != id_Pallet)
+                        crane_Y--;
 
                     if (crane_Y == initial_Y - _ROW_PALLETS)
                     {

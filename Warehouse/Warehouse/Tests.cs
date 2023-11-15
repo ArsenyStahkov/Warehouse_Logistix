@@ -14,36 +14,30 @@ namespace Warehouse
 
             Console.WriteLine("---Y: 0, 3, 6 (_ID_GLUE)");
 
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(0, j, _ID_GLUE);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(3, j, _ID_GLUE);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(6, j, _ID_GLUE);
+            for (int i = 0, Y = 0; i < 3; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_GLUE);
+                Y += 3;
+            }
 
             Console.WriteLine("--- Y: 1, 4, 7 (_ID_GROUT)");
 
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(1, j, _ID_GROUT);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(4, j, _ID_GROUT);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(7, j, _ID_GROUT);
+            for (int i = 0, Y = 1; i < 3; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_GROUT);
+                Y += 3;
+            }
 
             Console.WriteLine("--- Y: 2, 5, 8 (_ID_DETERGENTS)");
 
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(2, j, _ID_DETERGENTS);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(5, j, _ID_DETERGENTS);
-
-            for (int j = 0; j < 8; j++)
-                warehouse.AddNewPallet(8, j, _ID_DETERGENTS);
+            for (int i = 0, Y = 2; i < 3; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_DETERGENTS);
+                Y += 3;
+            }
 
             Console.WriteLine("--- Y: 9 (_ID_AUTO_CHEMISTRY)");
 
@@ -76,7 +70,16 @@ namespace Warehouse
 
         static void TestAllRowsFilling()
         {
+            WarehouseObject warehouse = new WarehouseObject();
 
+            Console.WriteLine("---_ID_GLUE");
+
+            for (int i = 0, Y = 0; i < 18; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_GLUE);
+                Y += 3;
+            }
         }
 
         static void TestStorageGetAndSet()
