@@ -57,9 +57,7 @@ namespace Warehouse
             for (int X = 1; X < 6; X++)
                 for (int Y = 70; Y < _MAX_Y; Y++)
                     for (int Z = 0; Z < _MAX_Z; Z++)
-                    {
                         Console.Write(warehouse._coordinates[X, Y, Z] + " ");
-                    }
 
             for (int i = 1; i < 5; i++)
                 warehouse.GetFromStorage(_START_CRANES_X, i, 0, 101, _ID_GLUE);
@@ -80,16 +78,23 @@ namespace Warehouse
                     warehouse.AddNewPallet(Y, Z, _ID_GLUE);
                 Y += 3;
             }
-        }
 
-        static void TestStorageGetAndSet()
-        {
+            for (int i = 0, Y = 1; i < 18; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_GROUT);
+                Y += 3;
+            }
 
-        }
+            for (int i = 0, Y = 2; i < 18; i++)
+            {
+                for (int Z = 0; Z < 8; Z++)
+                    warehouse.AddNewPallet(Y, Z, _ID_DETERGENTS);
+                Y += 3;
+            }
 
-        static void TestColumnFilling()
-        {
-
+            warehouse.GetPallet(_START_CRANES_X, 10, 0, 101, _ID_GLUE);
+            warehouse.SetPallet(_START_CRANES_X, 10, 0, -101, _ID_GLUE);
         }
     }
 }

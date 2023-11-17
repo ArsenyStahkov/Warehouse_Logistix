@@ -20,8 +20,6 @@ namespace Warehouse
 
             //TestRowFilling();
             TestAllRowsFilling();
-            //TestStorageGetAndSet();
-            //TestColumnFilling();
         }
     }
 }
